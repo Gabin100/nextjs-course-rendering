@@ -16,8 +16,21 @@ type HomePageProps = {
   };
 };
 
+async function getData() {
+  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData.toString()) as HomePageProps;
+
+  return data;
+}
+
 function ProductDetailsPage(props: HomePageProps) {
   const { loadedProduct } = props;
+
+  // if (!loadedProduct) {
+  //   return <p>Loading...</p>;
+  // }
+
   return (
     <Fragment>
       <h1>{loadedProduct.title}</h1>
@@ -29,10 +42,7 @@ function ProductDetailsPage(props: HomePageProps) {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const productId = params?.pid;
-
-  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
-  const jsonData = await fs.readFile(filePath);
-  const data = JSON.parse(jsonData.toString()) as HomePageProps;
+  const data = await getData();
 
   if (!productId) {
     return {
@@ -57,12 +67,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await getData();
+  const ids = data.products.map((product) => product.id);
+  const pathsWithparams = ids.map((id) => ({ params: { pid: id } }));
   return {
-    paths: [
-      { params: { pid: 'p1' } },
-      { params: { pid: 'p2' } },
-      { params: { pid: 'p3' } },
-    ],
+    paths: pathsWithparams,
     fallback: false,
   };
 };
