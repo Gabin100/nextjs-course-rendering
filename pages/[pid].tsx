@@ -72,7 +72,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const pathsWithparams = ids.map((id) => ({ params: { pid: id } }));
   return {
     paths: pathsWithparams,
-    fallback: false,
+    fallback: true,
   };
 };
 
