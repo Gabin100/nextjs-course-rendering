@@ -11,9 +11,8 @@ const LastSales = () => {
   const [sales, setSales] = useState<SalesData[]>();
   // const [isLoading, setIsLoading] = useState(false);
 
-  const { data, error } = useSWR(
-    'https://jibuchat.firebaseio.com/sales.json',
-    (url) => fetch(url).then((res) => res.json())
+  const { data, error } = useSWR('url', (url) =>
+    fetch(url).then((res) => res.json())
   );
 
   useEffect(() => {
