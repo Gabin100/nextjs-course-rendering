@@ -39,6 +39,8 @@ function ProductDetailsPage(props: HomePageProps) {
   );
 }
 
+export default ProductDetailsPage;
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const productId = params?.pid;
@@ -75,5 +77,3 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: true,
   };
 };
-
-export default ProductDetailsPage;
